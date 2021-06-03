@@ -82,6 +82,7 @@ const images = document.querySelector(".gallery");
 const modalOpen = document.querySelector(".lightbox");
 const modalClose = document.querySelector(".lightbox__button");
 const overlay = document.querySelector(".lightbox__overlay");
+const imagesContent = document.querySelector("lightbox__image");
 
 function galleryList(event) {
   if (!event.target.classList.contains("gallery__image")) {
@@ -117,6 +118,28 @@ function onEscapePress(event) {
   if (event.code === ESC_CODE) {
     modalCloseBtn();
   }
+}
+
+images.addEventListener("keydown", switchImagesWithArrowKeys);
+
+function switchImagesWithArrowKeys(e) {
+  let imageIndex = galleryImages.findIndex(
+    (item) => item.original === document.querySelector(".lightbox__image").src
+  );
+  if (e.key === "ArrowLeft") {
+    imageIndex === 0
+      ? (imageIndex = galleryImages.length - 1)
+      : (imageIndex -= 1);
+  }
+  if (e.key === "ArrowRight") {
+    imageIndex === galleryImages.length - 1
+      ? (imageIndex = 0)
+      : (imageIndex += 1);
+  }
+  document.querySelector(".lightbox__image").src =
+    galleryImages[imageIndex].original;
+  document.querySelector(".lightbox__image").alt =
+    galleryImages[imageIndex].description;
 }
 
 //переключение кнопками влево-вправо оставил на будущее :)//
